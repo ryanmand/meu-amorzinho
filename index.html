@@ -10,7 +10,8 @@
             text-align: center;
             font-family: Arial, sans-serif;
             background: url('fundo.jpg') no-repeat center center fixed; /* Alterado para .jpg */
-            background-size: contain; /* Ajustado para diminuir o tamanho da imagem */
+            background-size: cover; /* Ajustado para cobrir toda a tela */
+            background-position: center; /* Garantindo que a imagem fique centralizada */
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -76,8 +77,7 @@
         <button id="nao">Não</button>
     </div>
 
-    <!-- Alterado para .jpg -->
-    <img id="imagem" src="imagem-surpresa.jpg" alt="Imagem surpresa">
+    <img id="imagem" src="imagem-surpresa.jpg" alt="Imagem surpresa"> <!-- Alterado para .jpg -->
 
     <script>
         const nao = document.getElementById("nao");
@@ -93,33 +93,4 @@
             // Reposiciona o botão para um novo local aleatório após 500ms
             setTimeout(() => {
                 let x = Math.random() * (window.innerWidth - 100);
-                let y = Math.random() * (window.innerHeight - 100);
-                nao.style.left = x + "px";
-                nao.style.top = y + "px";
-                nao.style.visibility = "visible"; // Torna o botão visível novamente
-            }, 500);
-        });
-
-        // Botão "Sim" ativa animação
-        sim.addEventListener("click", () => {
-            imagem.style.display = "block";
-            imagem.style.transition = "transform 2s ease-in-out"; // Tornei a animação da imagem surpresa mais rápida
-            body.style.transition = "transform 2s ease-in-out"; // Tornei a animação do corpo mais rápida
-
-            let angle = 0;
-            let scale = 1;
-            let interval = setInterval(() => {
-                angle += 10;
-                scale += 0.1;
-                imagem.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${scale})`;
-                body.style.transform = `rotate(${angle}deg)`;
-                
-                if (scale >= 10) {
-                    clearInterval(interval);
-                }
-            }, 50); // Tornei a animação da imagem mais rápida (a cada 50ms)
-        });
-    </script>
-
-</body>
-</html>
+                let y = Math.random() * (window.innerH
