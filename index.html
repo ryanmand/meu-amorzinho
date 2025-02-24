@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você me ama?</title>
+    <style>
+        /* Estilo do fundo */
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: url('fundo.jpg') no-repeat center center fixed; /* Alterado para .jpg */
+            background-size: cover;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: transform 3s ease-in-out;
+        }
+
+        /* Estilo do texto grande */
+        h1 {
+            font-size: 50px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px black;
+        }
+
+        /* Estilo dos botões */
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.8); /* Fundo branco translúcido */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #sim {
+            background: green;
+            color: white;
+        }
+
+        #nao {
+            background: red;
+            color: white;
+            position: absolute;
+        }
+
+        /* Estilo da imagem surpresa */
+        #imagem {
+            display: none;
+            position: absolute;
+            width: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Você me ama?</h1>
+
+    <div class="container">
+        <button id="sim">Sim</button>
+        <button id="nao">Não</button>
+    </div>
+
+    <!-- Alterado para .jpg -->
+    <img id="imagem" src="imagem-surpresa.jpg" alt="Imagem surpresa">
+
+    <script>
+        const nao = document.getElementById("nao");
+        const sim = document.getElementById("sim");
+        const imagem = document.getElementById("imagem");
+        const body = document.body;
+
+        // Botão "Não" foge quando passa o mouse
+        nao.addEventListener("mouseover", () => {
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 100);
+            nao.style.left = x + "px";
+            nao.style.top = y + "px";
+        });
+
+        // Botão "Sim" ativa animação
+        sim.addEventListener("click", () => {
+            imagem.style.display = "block";
+            imagem.style.transition = "transform 3s ease-in-out";
+            body.style.transition = "transform 3s ease-in-out";
+
+            let angle = 0;
+            let scale = 1;
+            let interval = setInterval(() => {
+                angle += 10;
+                scale += 0.1;
+                imagem.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${scale})`;
+                body.style.transform = `rotate(${angle}deg)`;
+                
+                if (scale >= 10) {
+                    clearInterval(interval);
+                }
+            }, 100);
+        });
+    </script>
+
+</body>
+</html>
