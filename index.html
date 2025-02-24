@@ -10,7 +10,7 @@
             text-align: center;
             font-family: Arial, sans-serif;
             background: url('fundo.jpg') no-repeat center center fixed; /* Alterado para .jpg */
-            background-size: cover;
+            background-size: contain; /* Ajustado para diminuir o tamanho da imagem */
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -85,19 +85,26 @@
         const imagem = document.getElementById("imagem");
         const body = document.body;
 
-        // Botão "Não" foge quando passa o mouse
+        // Botão "Não" foge e reaparece em outro lugar quando passa o mouse
         nao.addEventListener("mouseover", () => {
-            let x = Math.random() * (window.innerWidth - 100);
-            let y = Math.random() * (window.innerHeight - 100);
-            nao.style.left = x + "px";
-            nao.style.top = y + "px";
+            // Esconde o botão por um momento
+            nao.style.visibility = "hidden";
+
+            // Reposiciona o botão para um novo local aleatório após 500ms
+            setTimeout(() => {
+                let x = Math.random() * (window.innerWidth - 100);
+                let y = Math.random() * (window.innerHeight - 100);
+                nao.style.left = x + "px";
+                nao.style.top = y + "px";
+                nao.style.visibility = "visible"; // Torna o botão visível novamente
+            }, 500);
         });
 
         // Botão "Sim" ativa animação
         sim.addEventListener("click", () => {
             imagem.style.display = "block";
-            imagem.style.transition = "transform 3s ease-in-out";
-            body.style.transition = "transform 3s ease-in-out";
+            imagem.style.transition = "transform 2s ease-in-out"; // Tornei a animação da imagem surpresa mais rápida
+            body.style.transition = "transform 2s ease-in-out"; // Tornei a animação do corpo mais rápida
 
             let angle = 0;
             let scale = 1;
@@ -110,7 +117,7 @@
                 if (scale >= 10) {
                     clearInterval(interval);
                 }
-            }, 100);
+            }, 50); // Tornei a animação da imagem mais rápida (a cada 50ms)
         });
     </script>
 
