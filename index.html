@@ -43,6 +43,7 @@
             border: none;
             border-radius: 5px;
             transition: transform 0.2s;
+            position: relative;
         }
 
         #sim {
@@ -53,9 +54,8 @@
         #nao {
             background: red;
             color: white;
-            position: fixed;
+            position: relative;
             transition: all 0.3s ease;
-            z-index: 1000;
         }
 
         .imagens {
@@ -119,8 +119,8 @@
 
     <div class="container">
         <button id="sim">Sim</button>
+        <button id="nao">Não</button>
     </div>
-    <button id="nao">Não</button>
 
     <div class="imagens">
         <img id="imagem1" class="imagem" src="imagem-surpresa.jpg" alt="Imagem 1">
@@ -134,26 +134,26 @@
         const imagens = document.querySelectorAll(".imagem");
 
         function moverBotaoNao() {
-            const margin = 50;
-            const maxX = window.innerWidth - nao.offsetWidth - margin;
-            const maxY = window.innerHeight - nao.offsetHeight - margin;
+            const containerRect = document.querySelector('.container').getBoundingClientRect();
+            const buttonWidth = nao.offsetWidth;
+            const buttonHeight = nao.offsetHeight;
             
-            const x = margin + Math.random() * maxX;
-            const y = margin + Math.random() * maxY;
+            // Limites dentro do container
+            const maxX = containerRect.width - buttonWidth;
+            const maxY = containerRect.height - buttonHeight;
+            
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
 
             nao.style.left = x + "px";
             nao.style.top = y + "px";
         }
 
         // Configuração inicial
+        nao.style.position = 'absolute';
         moverBotaoNao();
 
         nao.addEventListener("mouseover", () => {
-            moverBotaoNao();
-        });
-
-        nao.addEventListener("click", (e) => {
-            e.preventDefault();
             moverBotaoNao();
         });
 
