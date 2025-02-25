@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Você me ama?</title>
     <style>
-        /* Corpo */
         body {
             text-align: center;
             font-family: Arial, sans-serif;
@@ -17,107 +16,56 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            transition: all 0.5s ease; /* Transição suave para mudanças de fundo */
         }
 
         h1 {
             font-size: 50px;
             font-weight: bold;
             color: white;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
-            animation: bounce 1s ease infinite; /* Efeito de pulo no título */
+            text-shadow: 2px 2px 4px black;
         }
 
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        /* Contêiner de botões */
         .container {
             background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
             display: flex;
             gap: 20px;
-            transition: all 0.3s ease;
         }
 
         button {
             font-size: 18px;
-            padding: 15px 30px;
+            padding: 10px 20px;
             cursor: pointer;
             border: none;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        button:hover {
-            transform: scale(1.1); /* Efeito de hover */
+            border-radius: 5px;
         }
 
         #sim {
-            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            background: green;
             color: white;
         }
 
         #nao {
-            background: linear-gradient(45deg, #FF5722, #FF9800);
+            background: red;
             color: white;
+            position: absolute;
+            transition: all 0.3s ease; /* Para suavizar o movimento */
         }
 
-        #nao:active {
-            transform: scale(0.95); /* Efeito de clique no "Não" */
-        }
-
-        /* Imagens */
         .imagens {
             display: flex;
-            justify-content: space-between;
-            width: 100%;
+            justify-content: space-between; /* Distribui as imagens igualmente */
+            width: 100%; /* Garante que as imagens ocupem toda a largura da tela */
             position: relative;
             margin-top: 20px;
         }
 
         .imagem {
-            display: none;
-            width: 33%;
-            position: absolute;
-            transition: transform 2s ease-in-out, left 1s ease-out, top 1s ease-out;
-        }
-
-        #imagem1 {
-            left: -100%;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        #imagem2 {
-            right: -100%;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        #imagem3 {
-            left: 50%;
-            bottom: -100%;
-            transform: translateX(-50%);
-        }
-
-        /* Efeito parallax no fundo */
-        @keyframes parallax {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(20px); }
-        }
-
-        /* Aplicando o parallax no fundo */
-        body {
-            animation: parallax 5s linear infinite;
+            display: none; /* Inicia escondida */
+            width: 33%; /* Cada imagem ocupará 1/3 da tela */
+            transform-origin: center center; /* Garantir que as imagens cresçam a partir do centro */
+            transition: transform 3s ease-in-out; /* Transição para a rotação e aumento */
         }
 
     </style>
@@ -142,15 +90,12 @@
         const sim = document.getElementById("sim");
         const imagens = document.querySelectorAll(".imagem");
 
-        // Sons (adicionando sons de interação)
-        const somClique = new Audio("clique.mp3");  // Certifique-se de ter o som
-        const somSucesso = new Audio("sucesso.mp3"); // Som de sucesso
-
         // Função para mover o botão "Não" para uma posição aleatória
         function moverBotaoNao() {
             let x = Math.random() * (window.innerWidth - 100);
             let y = Math.random() * (window.innerHeight - 100);
 
+            // Garantir que o botão "Não" não ultrapasse os limites da tela
             if (x + nao.offsetWidth > window.innerWidth) x = window.innerWidth - nao.offsetWidth - 10;
             if (y + nao.offsetHeight > window.innerHeight) y = window.innerHeight - nao.offsetHeight - 10;
 
@@ -160,63 +105,34 @@
 
         // Quando clicar no botão "Não", ele desaparece e reaparece em um novo local
         nao.addEventListener("click", () => {
-            somClique.play(); // Som do clique
-            nao.style.display = "none";
+            nao.style.display = "none"; // Esconde o botão
             setTimeout(() => {
-                nao.style.display = "block";
-                moverBotaoNao();
-            }, 500);
+                nao.style.display = "block"; // Mostra o botão novamente
+                moverBotaoNao(); // Mover o botão para uma nova posição
+            }, 300); // Atraso para esconder e mostrar novamente
         });
 
-        // Quando clicar no botão "Sim", o botão "Não" some e as imagens aparecem
         sim.addEventListener("click", () => {
-            somSucesso.play(); // Som de sucesso
-            // Esconde o botão "Não" permanentemente
-            nao.style.display = "none";
-
-            imagens.forEach((img, index) => {
-                img.style.display = "inline-block";
-                img.style.transition = "all 1s ease"; // Transição mais suave
-
-                // Mover as imagens para suas posições iniciais fora da tela
-                if (index === 0) {
-                    img.style.left = "-100%"; // A imagem 1 vem da esquerda
-                    img.style.top = "50%"; // Alinha ao meio verticalmente
-                } else if (index === 1) {
-                    img.style.right = "-100%"; // A imagem 2 vem da direita
-                    img.style.top = "50%"; // Alinha ao meio verticalmente
-                } else if (index === 2) {
-                    img.style.left = "50%"; // A imagem 3 vem de baixo
-                    img.style.bottom = "-100%"; // Fora da tela em baixo
-                }
+            imagens.forEach((img) => {
+                img.style.display = "inline-block"; // Agora todas as imagens aparecem
+                img.style.transform = "scale(1)"; // Resetando qualquer transformação anterior
             });
 
             let angle = 0;
             let scale = 1;
             let interval = setInterval(() => {
-                angle += 15; // Aumenta a velocidade da rotação
-                scale += 0.07; // Aumenta o crescimento
-
+                angle += 15; // Aumento a rotação para girar de forma mais rápida
+                scale += 0.05; // Aumento suave para o crescimento das imagens
+                
                 imagens.forEach((img) => {
                     img.style.transform = `rotate(${angle}deg) scale(${scale})`;
                 });
 
                 // Gire as imagens até 720º (2 rotações completas) e aumente o tamanho até cobrir a tela
-                if (scale >= 2) { // A imagem vai crescer até o dobro do tamanho
+                if (scale >= 1.5) { // Limite de escala para cobrir um 1/3 da tela
                     clearInterval(interval);
                 }
-            }, 20); // Intervalo rápido para rotação mais rápida
-
-            // Agora faz as imagens entrarem
-            setTimeout(() => {
-                imagens[0].style.left = "0"; // Imagem 1 vai para 1/3 da tela
-                imagens[1].style.left = "33%"; // Imagem 2 vai para 2/3 da tela
-                imagens[2].style.left = "66%"; // Imagem 3 vai para 3/3 da tela
-
-                imagens.forEach((img) => {
-                    img.style.transform = "translateX(-50%) translateY(-50%)"; // Centraliza as imagens
-                });
-            }, 1000); // Delay de 1 segundo para as imagens entrarem
+            }, 30); // Intervalo rápido para rotação mais rápida
         });
     </script>
 
