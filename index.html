@@ -130,11 +130,21 @@
         });
 
         sim.addEventListener("click", () => {
-            imagens.forEach((img) => {
+            imagens.forEach((img, index) => {
                 img.style.display = "inline-block"; // Agora todas as imagens aparecem
                 img.style.transform = "scale(1)"; // Resetando qualquer transformação anterior
-                img.style.left = "0"; // As imagens começam a entrar na tela a partir do canto
-                img.style.top = "0"; // Posicionamento de entrada
+
+                // Movendo as imagens para dentro da tela a partir de diferentes cantos
+                if (index === 0) {
+                    img.style.left = "0";
+                    img.style.top = "0"; // Vem do canto superior esquerdo
+                } else if (index === 1) {
+                    img.style.left = "0";
+                    img.style.top = "0"; // Vem do canto superior direito
+                } else if (index === 2) {
+                    img.style.left = "0";
+                    img.style.bottom = "0"; // Vem do canto inferior esquerdo
+                }
             });
 
             let angle = 0;
