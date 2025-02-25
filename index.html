@@ -50,22 +50,22 @@
             background: red;
             color: white;
             position: absolute;
-            transition: all 0.3s ease; /* Para suavizar o movimento */
+            transition: all 0.3s ease;
         }
 
         .imagens {
             display: flex;
-            justify-content: space-between; /* Distribui as imagens igualmente */
-            width: 100%; /* Garante que as imagens ocupem toda a largura da tela */
+            justify-content: space-between;
+            width: 100%;
             position: relative;
             margin-top: 20px;
         }
 
         .imagem {
-            display: none; /* Inicia escondida */
-            width: 33%; /* Cada imagem ocupará 1/3 da tela */
-            transform-origin: center center; /* Garantir que as imagens cresçam a partir do centro */
-            transition: transform 3s ease-in-out; /* Transição para a rotação e aumento */
+            display: none;
+            width: 33%;
+            transform-origin: center center;
+            transition: transform 3s ease-in-out;
         }
 
     </style>
@@ -90,12 +90,10 @@
         const sim = document.getElementById("sim");
         const imagens = document.querySelectorAll(".imagem");
 
-        // Função para mover o botão "Não" para uma posição aleatória
         function moverBotaoNao() {
             let x = Math.random() * (window.innerWidth - 100);
             let y = Math.random() * (window.innerHeight - 100);
 
-            // Garantir que o botão "Não" não ultrapasse os limites da tela
             if (x + nao.offsetWidth > window.innerWidth) x = window.innerWidth - nao.offsetWidth - 10;
             if (y + nao.offsetHeight > window.innerHeight) y = window.innerHeight - nao.offsetHeight - 10;
 
@@ -103,36 +101,41 @@
             nao.style.top = y + "px";
         }
 
-        // Quando clicar no botão "Não", ele desaparece e reaparece em um novo local
         nao.addEventListener("click", () => {
-            nao.style.display = "none"; // Esconde o botão
+            nao.style.display = "none";
             setTimeout(() => {
-                nao.style.display = "block"; // Mostra o botão novamente
-                moverBotaoNao(); // Mover o botão para uma nova posição
-            }, 300); // Atraso para esconder e mostrar novamente
+                nao.style.display = "block";
+                moverBotaoNao();
+            }, 300);
         });
 
         sim.addEventListener("click", () => {
             imagens.forEach((img) => {
-                img.style.display = "inline-block"; // Agora todas as imagens aparecem
-                img.style.transform = "scale(1)"; // Resetando qualquer transformação anterior
+                img.style.display = "inline-block";
+                img.style.transform = "scale(1)";
             });
 
             let angle = 0;
             let scale = 1;
             let interval = setInterval(() => {
-                angle += 15; // Aumento a rotação para girar de forma mais rápida
-                scale += 0.05; // Aumento suave para o crescimento das imagens
-                
+                angle += 20; // Aumentando a velocidade de rotação
+                scale += 0.07; // Aumento mais rápido para o crescimento das imagens
+
                 imagens.forEach((img) => {
                     img.style.transform = `rotate(${angle}deg) scale(${scale})`;
                 });
 
-                // Gire as imagens até 720º (2 rotações completas) e aumente o tamanho até cobrir a tela
-                if (scale >= 1.5) { // Limite de escala para cobrir um 1/3 da tela
+                if (scale >= 1.5) { // As imagens crescem até cobrir 1/3 da tela
                     clearInterval(interval);
                 }
-            }, 30); // Intervalo rápido para rotação mais rápida
+            }, 20); // Intervalo mais rápido para um efeito mais dinâmico
+
+            setTimeout(() => {
+                imagens[0].style.transform = "translateX(-50%)"; // Imagem 1 se move para o centro
+                imagens[1].style.transform = "translateX(-50%)"; // Imagem 2 se move para o centro
+                imagens[2].style.transform = "translateX(-50%)"; // Imagem 3 se move para o centro
+            }, 1000); // Pequeno atraso para permitir que as imagens girem
+
         });
     </script>
 
