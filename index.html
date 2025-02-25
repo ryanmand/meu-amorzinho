@@ -55,8 +55,8 @@
 
         .imagens {
             display: flex;
-            justify-content: center; /* Alinhar as imagens no centro */
-            width: 80%; /* Deixe as imagens com largura proporcional à tela */
+            justify-content: center;
+            width: 90%;
             position: relative;
             margin-top: 20px;
             height: 200px;
@@ -64,7 +64,7 @@
 
         .imagem {
             display: none;
-            width: 30%; /* Ajustado para que as imagens fiquem mais compactas */
+            width: 25%;
             position: absolute;
             opacity: 0;
             transform-origin: center center;
@@ -77,37 +77,33 @@
             transform: translateY(-50%) scale(0.2); 
         }
         #imagem2 { 
-            left: 35%; /* A segunda imagem estará mais no meio da tela */
-            transform: translateY(-50%) scale(0.2); 
+            left: 40%;
+            transform: translate(-50%, -50%) scale(0.2); 
         }
         #imagem3 { 
-            left: 70%; /* Coloca a terceira imagem ao lado da segunda, com espaçamento */
-            transform: translateY(-50%) scale(0.2); 
+            left: 60%;
+            transform: translate(-50%, -50%) scale(0.2); 
         }
 
         /* Animação de entrada */
         .imagem.entrar {
             opacity: 1;
-            transform: translateY(-50%) scale(0.2);
         }
-        #imagem1.entrar { left: 5%; }
-        #imagem2.entrar { 
-            left: 35%; 
+        #imagem1.entrar { 
+            left: 10%;
             transform: translateY(-50%) scale(0.2); 
         }
-        #imagem3.entrar { left: 65%; }
+        #imagem2.entrar { 
+            left: 40%;
+            transform: translate(-50%, -50%) scale(0.2); 
+        }
+        #imagem3.entrar { 
+            left: 60%;
+            transform: translate(-50%, -50%) scale(0.2); 
+        }
 
         /* Animação de rotação + escala */
         @keyframes girar {
-            0% { 
-                transform: translateY(-50%) scale(0.2) rotate(0deg); 
-            }
-            100% { 
-                transform: translateY(-50%) scale(1) rotate(720deg); 
-            }
-        }
-
-        @keyframes girar-centro {
             0% { 
                 transform: translate(-50%, -50%) scale(0.2) rotate(0deg); 
             }
@@ -116,13 +112,8 @@
             }
         }
 
-        .imagem.girando:not(#imagem2) {
+        .imagem.girando {
             animation: girar 2s linear 1;
-            animation-fill-mode: forwards;
-        }
-
-        #imagem2.girando {
-            animation: girar-centro 2s linear 1;
             animation-fill-mode: forwards;
         }
 
@@ -176,8 +167,8 @@
                     img.classList.add("girando");
                 }, 1000);
             });
-            sim.style.display = "none";  // Esconde o botão "Sim"
-            nao.style.display = "none";  // Esconde o botão "Não"
+            sim.style.display = "none";
+            nao.style.display = "none";
         });
     </script>
 
