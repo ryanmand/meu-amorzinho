@@ -55,7 +55,7 @@
 
         .imagens {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Alterado para centralizar as imagens */
             width: 100%;
             position: relative;
             margin-top: 20px;
@@ -71,17 +71,17 @@
             transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* Posições iniciais com escala reduzida */
+        /* Posições iniciais ajustadas */
         #imagem1 { 
             left: -100%;
             transform: translateY(-50%) scale(0.2); 
         }
         #imagem2 { 
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.2); 
+            left: 0%; /* Alinhando imagem ao centro da tela */
+            transform: translateY(-50%) scale(0.2); 
         }
         #imagem3 { 
-            left: 200%;
+            left: 100%; /* Ajustando a posição da terceira imagem */
             transform: translateY(-50%) scale(0.2); 
         }
 
@@ -176,6 +176,8 @@
                     img.classList.add("girando");
                 }, 1000);
             });
+            sim.style.display = "none";  // Esconde o botão "Sim"
+            nao.style.display = "none";  // Esconde o botão "Não"
         });
     </script>
 
