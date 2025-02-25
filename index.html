@@ -60,7 +60,7 @@
         }
 
         .imagem {
-            display: none;
+            display: none; /* Inicia escondida */
             width: 150px;
             transition: transform 3s ease-in-out;
         }
@@ -103,7 +103,7 @@
         sim.addEventListener("click", () => {
             imagens.forEach((img) => {
                 img.style.display = "inline-block"; // Agora todas as imagens aparecem
-                img.style.transform = "scale(1)"; // Resetando caso clique novamente
+                img.style.transform = "scale(1)"; // Resetando qualquer transformação anterior
             });
 
             let angle = 0;
@@ -116,7 +116,7 @@
                     img.style.transform = `rotate(${angle}deg) scale(${scale})`;
                 });
 
-                if (scale >= 5) { // Ajustei o tamanho final para não exagerar
+                if (scale >= 2) { // Ajuste para que o tamanho não fique tão grande
                     clearInterval(interval);
                 }
             }, 100);
