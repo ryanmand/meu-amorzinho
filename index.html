@@ -91,7 +91,7 @@
         /* Estado final: sem rotação, de cabeça para cima */
         .imagem.final {
             transform: translateX(0) translateY(0) scale(1.5) rotate(0deg);
-            transition: transform 0.5s ease; /* Transição suave para o estado final */
+            animation: none; /* Remove qualquer animação residual */
         }
 
     </style>
@@ -141,18 +141,18 @@
 
                 // Aplica a animação correta dependendo da imagem
                 if (img.id === "imagem1") {
-                    img.style.animation = "entrarGirando 2s ease-in-out forwards";
+                    img.style.animation = "entrarGirando 2s ease-in-out 1"; // 1 iteração
                 } else if (img.id === "imagem2") {
-                    img.style.animation = "entrarGirandoCima 2s ease-in-out forwards";
+                    img.style.animation = "entrarGirandoCima 2s ease-in-out 1"; // 1 iteração
                 } else if (img.id === "imagem3") {
-                    img.style.animation = "entrarGirandoDireita 2s ease-in-out forwards";
+                    img.style.animation = "entrarGirandoDireita 2s ease-in-out 1"; // 1 iteração
                 }
 
                 // Após a animação, ajusta para o estado final (sem rotação)
-                setTimeout(() => {
-                    img.classList.add("final");
-                    img.style.animation = "none"; // Remove a animação de entrada
-                }, 2000); // Tempo igual à duração da animação (2s)
+                img.addEventListener("animationend", () => {
+                    img.classList.add("final"); // Aplica o estado final
+                    img.style.animation = "none"; // Remove a animação
+                }, { once: true }); // Garante que o evento só dispara uma vez
             });
         });
     </script>
