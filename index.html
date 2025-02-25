@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -26,6 +26,9 @@
         }
 
         .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
             display: flex;
             gap: 20px;
         }
@@ -54,22 +57,43 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            position: absolute;
+            position: relative;
             margin-top: 20px;
+            height: 200px;
         }
 
         .imagem {
             display: none;
             width: 33%;
-            transform-origin: center center;
-            transform: scale(0.1); /* Tamanho inicial pequeno */
+            position: absolute;
+            opacity: 0;
+            transform: translateY(-50%);
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* Animação de aumento de tamanho com rotação */
-        @keyframes crescerGirando {
-            0% { transform: scale(0.1) rotate(0deg); }
-            80% { transform: scale(1.5) rotate(720deg); } /* Pico da rotação e tamanho máximo */
-            100% { transform: scale(1.5) rotate(0deg); } /* Para de girar, mantendo tamanho */
+        #imagem1 { left: -100%; }
+        #imagem2 { left: 50%; transform: translate(-50%, -50%) scale(0); }
+        #imagem3 { left: 200%; }
+
+        .imagem.entrar {
+            opacity: 1;
+            transform: translateY(-50%);
+        }
+        #imagem1.entrar { left: 10%; }
+        #imagem2.entrar { 
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1); 
+        }
+        #imagem3.entrar { left: 90%; }
+
+        @keyframes girar {
+            0% { transform: rotate(0deg) translateY(-50%); }
+            100% { transform: rotate(720deg) translateY(-50%); }
+        }
+
+        .imagem.girando {
+            animation: girar 2s linear 1;
+            animation-fill-mode: forwards;
         }
 
     </style>
@@ -78,7 +102,7 @@
 
     <h1>Você me ama?</h1>
 
-    <div class="container" id="botoes">
+    <div class="container">
         <button id="sim">Sim</button>
         <button id="nao">Não</button>
     </div>
@@ -92,7 +116,6 @@
     <script>
         const nao = document.getElementById("nao");
         const sim = document.getElementById("sim");
-        const botoes = document.getElementById("botoes");
         const imagens = document.querySelectorAll(".imagem");
 
         function moverBotaoNao() {
@@ -115,13 +138,13 @@
         });
 
         sim.addEventListener("click", () => {
-            // Esconde os botões
-            botoes.style.display = "none";
-
-            // Exibe e anima as imagens
             imagens.forEach((img) => {
-                img.style.display = "inline-block";
-                img.style.animation = "crescerGirando 2.5s ease-in-out forwards";
+                img.style.display = "block";
+                img.classList.add("entrar");
+                
+                setTimeout(() => {
+                    img.classList.add("girando");
+                }, 1000);
             });
         });
     </script>
