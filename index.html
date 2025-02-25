@@ -67,32 +67,62 @@
             width: 33%;
             position: absolute;
             opacity: 0;
-            transform: translateY(-50%);
+            transform-origin: center center;
             transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        #imagem1 { left: -100%; }
-        #imagem2 { left: 50%; transform: translate(-50%, -50%) scale(0); }
-        #imagem3 { left: 200%; }
+        /* Posições iniciais com escala reduzida */
+        #imagem1 { 
+            left: -100%;
+            transform: translateY(-50%) scale(0.2); 
+        }
+        #imagem2 { 
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.2); 
+        }
+        #imagem3 { 
+            left: 200%;
+            transform: translateY(-50%) scale(0.2); 
+        }
 
+        /* Animação de entrada */
         .imagem.entrar {
             opacity: 1;
-            transform: translateY(-50%);
+            transform: translateY(-50%) scale(0.2);
         }
-        #imagem1.entrar { left: 10%; }
+        #imagem1.entrar { left: 5%; }
         #imagem2.entrar { 
             left: 50%;
-            transform: translate(-50%, -50%) scale(1); 
+            transform: translate(-50%, -50%) scale(0.2); 
         }
-        #imagem3.entrar { left: 90%; }
+        #imagem3.entrar { left: 95%; }
 
+        /* Animação de rotação + escala */
         @keyframes girar {
-            0% { transform: rotate(0deg) translateY(-50%); }
-            100% { transform: rotate(720deg) translateY(-50%); }
+            0% { 
+                transform: translateY(-50%) scale(0.2) rotate(0deg); 
+            }
+            100% { 
+                transform: translateY(-50%) scale(1) rotate(720deg); 
+            }
         }
 
-        .imagem.girando {
+        @keyframes girar-centro {
+            0% { 
+                transform: translate(-50%, -50%) scale(0.2) rotate(0deg); 
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1) rotate(720deg); 
+            }
+        }
+
+        .imagem.girando:not(#imagem2) {
             animation: girar 2s linear 1;
+            animation-fill-mode: forwards;
+        }
+
+        #imagem2.girando {
+            animation: girar-centro 2s linear 1;
             animation-fill-mode: forwards;
         }
 
