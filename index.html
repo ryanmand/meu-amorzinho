@@ -50,6 +50,7 @@
             background: red;
             color: white;
             position: absolute;
+            transition: all 0.3s ease; /* Para suavizar o movimento */
         }
 
         .imagens {
@@ -63,7 +64,7 @@
         .imagem {
             display: none; /* Inicia escondida */
             width: 150px;
-            transition: transform 1s ease-in-out;
+            transition: transform 3s ease-in-out;
         }
 
     </style>
@@ -88,17 +89,26 @@
         const sim = document.getElementById("sim");
         const imagens = document.querySelectorAll(".imagem");
 
-        // Adicionando evento de "hover" para o botão "Não"
-        nao.addEventListener("click", () => {
+        // Função para mover o botão "Não" para uma posição aleatória
+        function moverBotaoNao() {
             let x = Math.random() * (window.innerWidth - 100);
             let y = Math.random() * (window.innerHeight - 100);
 
-            // Garantindo que o botão "Não" não ultrapasse os limites da tela
+            // Garantir que o botão "Não" não ultrapasse os limites da tela
             if (x + nao.offsetWidth > window.innerWidth) x = window.innerWidth - nao.offsetWidth - 10;
             if (y + nao.offsetHeight > window.innerHeight) y = window.innerHeight - nao.offsetHeight - 10;
 
             nao.style.left = x + "px";
             nao.style.top = y + "px";
+        }
+
+        // Quando clicar no botão "Não", ele desaparece e reaparece em um novo local
+        nao.addEventListener("click", () => {
+            nao.style.display = "none"; // Esconde o botão
+            setTimeout(() => {
+                nao.style.display = "block"; // Mostra o botão novamente
+                moverBotaoNao(); // Mover o botão para uma nova posição
+            }, 300); // Atraso para esconder e mostrar novamente
         });
 
         sim.addEventListener("click", () => {
@@ -110,14 +120,15 @@
             let angle = 0;
             let scale = 1;
             let interval = setInterval(() => {
-                angle += 30; // Aumentei a rotação para girar mais rápido
-                scale += 0.2; // Aumento a escala para crescer mais rápido
+                angle += 30; // Aumento a rotação para girar mais rápido
+                scale += 0.15; // Aumento mais suave para o crescimento das imagens
                 
                 imagens.forEach((img) => {
                     img.style.transform = `rotate(${angle}deg) scale(${scale})`;
                 });
 
-                if (scale >= 7) { // Aumentei o limite de escala para ocupar mais a tela
+                // Gire as imagens duas vezes (720º) e aumente o tamanho até cobrir a tela
+                if (scale >= 10) { // Limite de escala para cobrir quase toda a tela
                     clearInterval(interval);
                 }
             }, 50); // Intervalo mais curto para rotação mais rápida
