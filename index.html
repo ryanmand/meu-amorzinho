@@ -16,6 +16,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            margin: 0;
         }
 
         h1 {
@@ -23,6 +24,7 @@
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 4px black;
+            margin-bottom: 20px;
         }
 
         .container {
@@ -31,6 +33,7 @@
             border-radius: 10px;
             display: flex;
             gap: 20px;
+            position: relative;
         }
 
         button {
@@ -39,6 +42,7 @@
             cursor: pointer;
             border: none;
             border-radius: 5px;
+            transition: transform 0.2s;
         }
 
         #sim {
@@ -51,6 +55,7 @@
             color: white;
             position: absolute;
             transition: all 0.3s ease;
+            z-index: 1000;
         }
 
         .imagens {
@@ -71,38 +76,27 @@
             transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* Posições iniciais com espaçamento igual */
+        /* Posições com espaçamento dobrado */
         #imagem1 { 
-            left: 20%;
+            left: 15%;
             transform: translate(-50%, -50%) scale(0.2); 
         }
         #imagem2 { 
-            left: 50%;
+            left: 35%;
             transform: translate(-50%, -50%) scale(0.2); 
         }
         #imagem3 { 
-            left: 80%;
+            left: 65%;
             transform: translate(-50%, -50%) scale(0.2); 
         }
 
-        /* Animação de entrada */
         .imagem.entrar {
             opacity: 1;
         }
-        #imagem1.entrar { 
-            left: 20%;
-            transform: translate(-50%, -50%) scale(0.2); 
-        }
-        #imagem2.entrar { 
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.2); 
-        }
-        #imagem3.entrar { 
-            left: 80%;
-            transform: translate(-50%, -50%) scale(0.2); 
-        }
+        #imagem1.entrar { left: 15%; }
+        #imagem2.entrar { left: 35%; }
+        #imagem3.entrar { left: 65%; }
 
-        /* Animação de rotação + escala */
         @keyframes girar {
             0% { 
                 transform: translate(-50%, -50%) scale(0.2) rotate(0deg); 
@@ -140,22 +134,37 @@
         const imagens = document.querySelectorAll(".imagem");
 
         function moverBotaoNao() {
-            let x = Math.random() * (window.innerWidth - 100);
-            let y = Math.random() * (window.innerHeight - 100);
-
-            // Garante que o botão não saia da tela
-            x = Math.max(10, Math.min(x, window.innerWidth - nao.offsetWidth - 10));
-            y = Math.max(10, Math.min(y, window.innerHeight - nao.offsetHeight - 10));
+            const margin = 20;
+            const maxX = window.innerWidth - nao.offsetWidth - margin;
+            const maxY = window.innerHeight - nao.offsetHeight - margin;
+            
+            const x = margin + Math.random() * maxX;
+            const y = margin + Math.random() * maxY;
 
             nao.style.left = x + "px";
             nao.style.top = y + "px";
         }
 
-        // Posiciona o botão "Não" aleatoriamente ao carregar
+        function reiniciarBotoes() {
+            sim.style.display = "block";
+            nao.style.display = "block";
+            moverBotaoNao();
+        }
+
+        // Configuração inicial
         moverBotaoNao();
+        let clickCount = 0;
+
+        nao.addEventListener("mouseover", () => {
+            if(clickCount > 3) {
+                moverBotaoNao();
+                clickCount = 0;
+            }
+            clickCount++;
+        });
 
         nao.addEventListener("click", () => {
-            moverBotaoNao(); // Nova posição a cada clique
+            moverBotaoNao();
         });
 
         sim.addEventListener("click", () => {
@@ -168,15 +177,16 @@
                 }, 1000);
             });
             
-            // Oculta ambos os botões permanentemente
+            // Oculta os botões permanentemente
             sim.style.display = "none";
             nao.style.display = "none";
         });
 
-        // Reset ao clicar com o botão direito (opcional)
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            location.reload();
+        // Reset ao clicar em qualquer lugar
+        document.addEventListener('click', (e) => {
+            if(e.target === document.body) {
+                location.reload();
+            }
         });
     </script>
 
