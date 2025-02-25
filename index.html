@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,45 +58,34 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            position: relative;
-            margin-top: 20px;
+            position: absolute;
+            bottom: -150px;
+            transition: transform 1s ease-in-out;
         }
 
         .imagem {
-            display: none;
+            display: block;
             width: 33%;
             transform-origin: center center;
+            transition: transform 3s ease-in-out;
         }
 
-        /* Posições iniciais fora da tela e escala pequena */
-        #imagem1 { transform: translateX(-150%) scale(0.1); }
-        #imagem2 { transform: translateY(-150%) scale(0.1); }
-        #imagem3 { transform: translateX(150%) scale(0.1); }
+        @keyframes girar {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
 
-        /* Animação de entrada com rotação e aumento */
-        @keyframes entrarGirando {
-            0% { transform: translateX(-150%) scale(0.1); }
-            100% { transform: translateX(0) scale(1.5) rotate(720deg); }
+            100% {
+                transform: rotate(720deg) scale(1.5);
+            }
         }
 
-        @keyframes entrarGirandoCima {
-            0% { transform: translateY(-150%) scale(0.1); }
-            100% { transform: translateY(0) scale(1.5) rotate(720deg); }
+        .imagem.girando {
+            animation: girar 5s linear forwards;
         }
-
-        @keyframes entrarGirandoDireita {
-            0% { transform: translateX(150%) scale(0.1); }
-            100% { transform: translateX(0) scale(1.5) rotate(720deg); }
-        }
-
-        /* Estado final: sem rotação, de cabeça para cima */
-        .imagem.final {
-            transform: translateX(0) translateY(0) scale(1.5) rotate(0deg);
-            animation: none; /* Remove qualquer animação residual */
-        }
-
     </style>
 </head>
+
 <body>
 
     <h1>Você me ama?</h1>
@@ -115,6 +105,7 @@
         const nao = document.getElementById("nao");
         const sim = document.getElementById("sim");
         const imagens = document.querySelectorAll(".imagem");
+        const imagensContainer = document.querySelector(".imagens");
 
         function moverBotaoNao() {
             let x = Math.random() * (window.innerWidth - 100);
@@ -136,26 +127,17 @@
         });
 
         sim.addEventListener("click", () => {
+            imagensContainer.style.transform = "translateY(-150px)";
             imagens.forEach((img) => {
-                img.style.display = "inline-block"; // Exibe as imagens
+                img.classList.add("girando");
 
-                // Aplica a animação correta dependendo da imagem
-                if (img.id === "imagem1") {
-                    img.style.animation = "entrarGirando 2s ease-in-out 1"; // 1 iteração
-                } else if (img.id === "imagem2") {
-                    img.style.animation = "entrarGirandoCima 2s ease-in-out 1"; // 1 iteração
-                } else if (img.id === "imagem3") {
-                    img.style.animation = "entrarGirandoDireita 2s ease-in-out 1"; // 1 iteração
-                }
-
-                // Após a animação, ajusta para o estado final (sem rotação)
                 img.addEventListener("animationend", () => {
-                    img.classList.add("final"); // Aplica o estado final
-                    img.style.animation = "none"; // Remove a animação
-                }, { once: true }); // Garante que o evento só dispara uma vez
+                    img.classList.remove("girando");
+                });
             });
         });
     </script>
 
 </body>
+
 </html>
