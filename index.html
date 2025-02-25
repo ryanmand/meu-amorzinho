@@ -63,10 +63,9 @@
 
         .imagem {
             display: none;
-            width: 33%;
-            transform-origin: center center;
-            transition: transform 4s ease-in-out, left 1s ease-out, top 1s ease-out;
+            width: 33%; /* Cada imagem ocupa 1/3 da tela */
             position: absolute;
+            transition: transform 4s ease-in-out, left 1s ease-out, top 1s ease-out;
         }
 
         #imagem1 {
@@ -130,7 +129,11 @@
             }, 300);
         });
 
+        // Quando clicar no botão "Sim", o botão "Não" some e as imagens aparecem
         sim.addEventListener("click", () => {
+            // Esconde o botão "Não" permanentemente
+            nao.style.display = "none";
+
             imagens.forEach((img, index) => {
                 img.style.display = "inline-block";
 
@@ -153,8 +156,8 @@
             let angle = 0;
             let scale = 1;
             let interval = setInterval(() => {
-                angle += 20; // Faz as imagens girarem mais rápido
-                scale += 0.05; // Faz as imagens crescerem
+                angle += 10; // Acelera a rotação
+                scale += 0.05; // Acelera o crescimento
 
                 imagens.forEach((img) => {
                     img.style.transform = `rotate(${angle}deg) scale(${scale})`;
@@ -168,14 +171,14 @@
 
             // Agora faz as imagens entrarem
             setTimeout(() => {
-                imagens[0].style.left = "33%"; // Imagem 1 vai para 1/3 da tela
-                imagens[0].style.transform = "translateX(-50%) translateY(-50%)"; // Centraliza
-                imagens[1].style.left = "33%"; // Imagem 2 vai para 1/3 da tela
-                imagens[1].style.transform = "translateX(-50%) translateY(-50%)"; // Centraliza
-                imagens[2].style.left = "33%"; // Imagem 3 vai para 1/3 da tela
-                imagens[2].style.transform = "translateX(-50%) translateY(50%)"; // Centraliza
-            }, 1000); // Delay de 1 segundo para as imagens entrarem
+                imagens[0].style.left = "0"; // Imagem 1 vai para 1/3 da tela
+                imagens[1].style.left = "33%"; // Imagem 2 vai para 2/3 da tela
+                imagens[2].style.left = "66%"; // Imagem 3 vai para 3/3 da tela
 
+                imagens.forEach((img) => {
+                    img.style.transform = "translateX(-50%) translateY(-50%)"; // Centraliza as imagens
+                });
+            }, 1000); // Delay de 1 segundo para as imagens entrarem
         });
     </script>
 
