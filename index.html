@@ -56,14 +56,14 @@
         .imagens {
             display: flex;
             justify-content: space-between; /* Distribui as imagens igualmente */
-            width: 100%; /* Garantir que as imagens ocupem toda a largura da tela */
+            width: 100%; /* Garante que as imagens ocupem toda a largura da tela */
             position: relative;
             margin-top: 20px;
         }
 
         .imagem {
             display: none; /* Inicia escondida */
-            width: 30%; /* Cada imagem ocupa 1/3 da tela */
+            width: 33%; /* Cada imagem ocupará 1/3 da tela */
             transition: transform 3s ease-in-out; /* Transição para a rotação e aumento */
         }
 
@@ -120,7 +120,7 @@
             let angle = 0;
             let scale = 1;
             let interval = setInterval(() => {
-                angle += 5; // Aumento a rotação para girar de forma mais fluida
+                angle += 10; // Aumento a rotação para girar de forma mais rápida
                 scale += 0.1; // Aumento suave para o crescimento das imagens
                 
                 imagens.forEach((img) => {
@@ -128,10 +128,10 @@
                 });
 
                 // Gire as imagens até 720º (2 rotações completas) e aumente o tamanho até cobrir a tela
-                if (scale >= 5) { // Limite de escala para cobrir quase toda a tela
+                if (scale >= 3) { // Limite de escala para cobrir um 1/3 da tela
                     clearInterval(interval);
                 }
-            }, 50); // Intervalo mais curto para rotação mais rápida
+            }, 30); // Aumentei a velocidade da rotação (menor valor, rotação mais rápida)
         });
     </script>
 
