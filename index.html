@@ -28,12 +28,16 @@
 
         .container {
             position: relative;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            gap: 10px;
         }
 
         button {
             font-size: 18px;
             padding: 10px 20px;
-            margin: 10px;
             cursor: pointer;
             border: none;
             border-radius: 5px;
@@ -48,19 +52,20 @@
             background: red;
             color: white;
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
         }
 
-        #imagem {
+        .imagem {
             display: none;
             position: absolute;
             width: 100px;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: transform 3s ease-in-out;
+            transform: translateY(-50%);
         }
+        
+        #imagem1 { left: 30%; }
+        #imagem2 { left: 50%; }
+        #imagem3 { left: 70%; }
+
     </style>
 </head>
 <body>
@@ -72,45 +77,47 @@
         <button id="nao">Não</button>
     </div>
 
-    <img id="imagem" src="imagem-surpresa.jpg" alt="Imagem surpresa">
+    <img id="imagem1" class="imagem" src="imagem-surpresa.jpg" alt="Imagem 1">
+    <img id="imagem2" class="imagem" src="imagem-surpresa2.jpeg" alt="Imagem 2">
+    <img id="imagem3" class="imagem" src="imagem-surpresa3.jpeg" alt="Imagem 3">
 
     <script>
         const nao = document.getElementById("nao");
         const sim = document.getElementById("sim");
-        const imagem = document.getElementById("imagem");
+        const imagens = document.querySelectorAll(".imagem");
         const body = document.body;
 
-        // Evita que o botão "Não" saia da tela
         nao.addEventListener("mouseover", () => {
-            let x = Math.random() * (window.innerWidth - 120);
-            let y = Math.random() * (window.innerHeight - 60);
-
-            x = Math.max(10, Math.min(x, window.innerWidth - 100));
-            y = Math.max(10, Math.min(y, window.innerHeight - 50));
-
-            nao.style.left = `${x}px`;
-            nao.style.top = `${y}px`;
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 100);
+            nao.style.left = x + "px";
+            nao.style.top = y + "px";
         });
 
-        // Botão "Sim" ativa animação
         sim.addEventListener("click", () => {
-            imagem.style.display = "block";
+            imagens.forEach((img) => {
+                img.style.display = "block";
+                img.style.transition = "transform 3s ease-in-out";
+            });
+
+            body.style.transition = "transform 3s ease-in-out";
+
             let angle = 0;
             let scale = 1;
-
-            function animate() {
-                angle += 5;
+            let interval = setInterval(() => {
+                angle += 10;
                 scale += 0.1;
+                
+                imagens.forEach((img) => {
+                    img.style.transform = `translateY(-50%) rotate(${angle}deg) scale(${scale})`;
+                });
 
-                imagem.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${Math.min(scale, 5)})`;
                 body.style.transform = `rotate(${angle}deg)`;
 
-                if (scale < 5) {
-                    requestAnimationFrame(animate);
+                if (scale >= 10) {
+                    clearInterval(interval);
                 }
-            }
-
-            animate();
+            }, 100);
         });
     </script>
 
