@@ -71,17 +71,17 @@
             transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* Posições iniciais ajustadas */
+        /* Posições iniciais com espaçamento igual */
         #imagem1 { 
-            left: -100%;
-            transform: translateY(-50%) scale(0.2); 
+            left: 20%;
+            transform: translate(-50%, -50%) scale(0.2); 
         }
         #imagem2 { 
-            left: 40%;
+            left: 50%;
             transform: translate(-50%, -50%) scale(0.2); 
         }
         #imagem3 { 
-            left: 60%;
+            left: 80%;
             transform: translate(-50%, -50%) scale(0.2); 
         }
 
@@ -90,15 +90,15 @@
             opacity: 1;
         }
         #imagem1.entrar { 
-            left: 10%;
-            transform: translateY(-50%) scale(0.2); 
+            left: 20%;
+            transform: translate(-50%, -50%) scale(0.2); 
         }
         #imagem2.entrar { 
-            left: 40%;
+            left: 50%;
             transform: translate(-50%, -50%) scale(0.2); 
         }
         #imagem3.entrar { 
-            left: 60%;
+            left: 80%;
             transform: translate(-50%, -50%) scale(0.2); 
         }
 
@@ -143,19 +143,19 @@
             let x = Math.random() * (window.innerWidth - 100);
             let y = Math.random() * (window.innerHeight - 100);
 
-            if (x + nao.offsetWidth > window.innerWidth) x = window.innerWidth - nao.offsetWidth - 10;
-            if (y + nao.offsetHeight > window.innerHeight) y = window.innerHeight - nao.offsetHeight - 10;
+            // Garante que o botão não saia da tela
+            x = Math.max(10, Math.min(x, window.innerWidth - nao.offsetWidth - 10));
+            y = Math.max(10, Math.min(y, window.innerHeight - nao.offsetHeight - 10));
 
             nao.style.left = x + "px";
             nao.style.top = y + "px";
         }
 
+        // Posiciona o botão "Não" aleatoriamente ao carregar
+        moverBotaoNao();
+
         nao.addEventListener("click", () => {
-            nao.style.display = "none";
-            setTimeout(() => {
-                nao.style.display = "block";
-                moverBotaoNao();
-            }, 300);
+            moverBotaoNao(); // Nova posição a cada clique
         });
 
         sim.addEventListener("click", () => {
@@ -167,8 +167,16 @@
                     img.classList.add("girando");
                 }, 1000);
             });
+            
+            // Oculta ambos os botões permanentemente
             sim.style.display = "none";
             nao.style.display = "none";
+        });
+
+        // Reset ao clicar com o botão direito (opcional)
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            location.reload();
         });
     </script>
 
