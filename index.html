@@ -55,7 +55,7 @@
 
         .imagens {
             display: flex;
-            justify-content: center; /* Alterado para centralizar as imagens */
+            justify-content: center;
             width: 100%;
             position: relative;
             margin-top: 20px;
@@ -64,7 +64,7 @@
 
         .imagem {
             display: none;
-            width: 33%;
+            width: 30%; /* Ajustado para dar espaço entre as imagens */
             position: absolute;
             opacity: 0;
             transform-origin: center center;
@@ -77,11 +77,11 @@
             transform: translateY(-50%) scale(0.2); 
         }
         #imagem2 { 
-            left: 0%; /* Alinhando imagem ao centro da tela */
+            left: 0%; 
             transform: translateY(-50%) scale(0.2); 
         }
         #imagem3 { 
-            left: 100%; /* Ajustando a posição da terceira imagem */
+            left: 35%; /* Agora a terceira imagem estará ao lado da segunda */
             transform: translateY(-50%) scale(0.2); 
         }
 
@@ -92,10 +92,10 @@
         }
         #imagem1.entrar { left: 5%; }
         #imagem2.entrar { 
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.2); 
+            left: 35%; 
+            transform: translateY(-50%) scale(0.2); 
         }
-        #imagem3.entrar { left: 95%; }
+        #imagem3.entrar { left: 65%; }
 
         /* Animação de rotação + escala */
         @keyframes girar {
