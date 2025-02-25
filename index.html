@@ -62,10 +62,27 @@
         }
 
         .imagem {
-            display: none; /* Inicia escondida */
+            display: none; /* Inicialmente as imagens estarão escondidas */
             width: 33%; /* Cada imagem ocupará 1/3 da tela */
             transform-origin: center center; /* Garantir que as imagens cresçam a partir do centro */
-            transition: transform 3s ease-in-out; /* Transição para a rotação e aumento */
+            transition: transform 3s ease-in-out, left 1s ease-out, top 1s ease-out; /* Transição para rotação e animação de movimento */
+            position: absolute;
+        }
+
+        /* Inicialmente posicionando as imagens fora da tela */
+        #imagem1 {
+            left: -100%;
+            top: -100%;
+        }
+
+        #imagem2 {
+            right: -100%;
+            top: -100%;
+        }
+
+        #imagem3 {
+            left: -100%;
+            bottom: -100%;
         }
 
     </style>
@@ -116,6 +133,8 @@
             imagens.forEach((img) => {
                 img.style.display = "inline-block"; // Agora todas as imagens aparecem
                 img.style.transform = "scale(1)"; // Resetando qualquer transformação anterior
+                img.style.left = "0"; // As imagens começam a entrar na tela a partir do canto
+                img.style.top = "0"; // Posicionamento de entrada
             });
 
             let angle = 0;
