@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Você me ama?</title>
     <style>
-        /* Estilo do fundo */
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background: url('fundo.jpg') no-repeat center center fixed; /* Alterado para .jpg */
+            background: url('fundo.jpg') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
             overflow: hidden;
@@ -20,7 +19,6 @@
             transition: transform 3s ease-in-out;
         }
 
-        /* Estilo do texto grande */
         h1 {
             font-size: 50px;
             font-weight: bold;
@@ -28,12 +26,8 @@
             text-shadow: 2px 2px 4px black;
         }
 
-        /* Estilo dos botões */
         .container {
             position: relative;
-            background: rgba(255, 255, 255, 0.8); /* Fundo branco translúcido */
-            padding: 20px;
-            border-radius: 10px;
         }
 
         button {
@@ -54,9 +48,10 @@
             background: red;
             color: white;
             position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        /* Estilo da imagem surpresa */
         #imagem {
             display: none;
             position: absolute;
@@ -64,6 +59,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            transition: transform 3s ease-in-out;
         }
     </style>
 </head>
@@ -76,7 +72,6 @@
         <button id="nao">Não</button>
     </div>
 
-    <!-- Alterado para .jpg -->
     <img id="imagem" src="imagem-surpresa.jpg" alt="Imagem surpresa">
 
     <script>
@@ -85,32 +80,37 @@
         const imagem = document.getElementById("imagem");
         const body = document.body;
 
-        // Botão "Não" foge quando passa o mouse
+        // Evita que o botão "Não" saia da tela
         nao.addEventListener("mouseover", () => {
-            let x = Math.random() * (window.innerWidth - 100);
-            let y = Math.random() * (window.innerHeight - 100);
-            nao.style.left = x + "px";
-            nao.style.top = y + "px";
+            let x = Math.random() * (window.innerWidth - 120);
+            let y = Math.random() * (window.innerHeight - 60);
+
+            x = Math.max(10, Math.min(x, window.innerWidth - 100));
+            y = Math.max(10, Math.min(y, window.innerHeight - 50));
+
+            nao.style.left = `${x}px`;
+            nao.style.top = `${y}px`;
         });
 
         // Botão "Sim" ativa animação
         sim.addEventListener("click", () => {
             imagem.style.display = "block";
-            imagem.style.transition = "transform 3s ease-in-out";
-            body.style.transition = "transform 3s ease-in-out";
-
             let angle = 0;
             let scale = 1;
-            let interval = setInterval(() => {
-                angle += 10;
+
+            function animate() {
+                angle += 5;
                 scale += 0.1;
-                imagem.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${scale})`;
+
+                imagem.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${Math.min(scale, 5)})`;
                 body.style.transform = `rotate(${angle}deg)`;
-                
-                if (scale >= 10) {
-                    clearInterval(interval);
+
+                if (scale < 5) {
+                    requestAnimationFrame(animate);
                 }
-            }, 100);
+            }
+
+            animate();
         });
     </script>
 
