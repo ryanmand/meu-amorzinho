@@ -53,7 +53,7 @@
         #nao {
             background: red;
             color: white;
-            position: absolute;
+            position: fixed;
             transition: all 0.3s ease;
             z-index: 1000;
         }
@@ -76,7 +76,7 @@
             transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* Posições com espaçamento dobrado */
+        /* Posições com espaçamento corrigido */
         #imagem1 { 
             left: 15%;
             transform: translate(-50%, -50%) scale(0.2); 
@@ -119,8 +119,8 @@
 
     <div class="container">
         <button id="sim">Sim</button>
-        <button id="nao">Não</button>
     </div>
+    <button id="nao">Não</button>
 
     <div class="imagens">
         <img id="imagem1" class="imagem" src="imagem-surpresa.jpg" alt="Imagem 1">
@@ -134,7 +134,7 @@
         const imagens = document.querySelectorAll(".imagem");
 
         function moverBotaoNao() {
-            const margin = 20;
+            const margin = 50;
             const maxX = window.innerWidth - nao.offsetWidth - margin;
             const maxY = window.innerHeight - nao.offsetHeight - margin;
             
@@ -145,25 +145,15 @@
             nao.style.top = y + "px";
         }
 
-        function reiniciarBotoes() {
-            sim.style.display = "block";
-            nao.style.display = "block";
-            moverBotaoNao();
-        }
-
         // Configuração inicial
         moverBotaoNao();
-        let clickCount = 0;
 
         nao.addEventListener("mouseover", () => {
-            if(clickCount > 3) {
-                moverBotaoNao();
-                clickCount = 0;
-            }
-            clickCount++;
+            moverBotaoNao();
         });
 
-        nao.addEventListener("click", () => {
+        nao.addEventListener("click", (e) => {
+            e.preventDefault();
             moverBotaoNao();
         });
 
@@ -177,16 +167,15 @@
                 }, 1000);
             });
             
-            // Oculta os botões permanentemente
+            // Oculta os botões
             sim.style.display = "none";
             nao.style.display = "none";
         });
 
-        // Reset ao clicar em qualquer lugar
-        document.addEventListener('click', (e) => {
-            if(e.target === document.body) {
-                location.reload();
-            }
+        // Reset ao clicar com o botão direito
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            location.reload();
         });
     </script>
 
