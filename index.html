@@ -49,6 +49,7 @@
         #nao {
             background: red;
             color: white;
+            position: absolute;
         }
 
         .imagens {
@@ -62,7 +63,7 @@
         .imagem {
             display: none; /* Inicia escondida */
             width: 150px;
-            transition: transform 3s ease-in-out;
+            transition: transform 1s ease-in-out;
         }
 
     </style>
@@ -88,7 +89,7 @@
         const imagens = document.querySelectorAll(".imagem");
 
         // Adicionando evento de "hover" para o botão "Não"
-        nao.addEventListener("mouseover", () => {
+        nao.addEventListener("click", () => {
             let x = Math.random() * (window.innerWidth - 100);
             let y = Math.random() * (window.innerHeight - 100);
 
@@ -109,17 +110,17 @@
             let angle = 0;
             let scale = 1;
             let interval = setInterval(() => {
-                angle += 10;
-                scale += 0.1;
+                angle += 30; // Aumentei a rotação para girar mais rápido
+                scale += 0.2; // Aumento a escala para crescer mais rápido
                 
                 imagens.forEach((img) => {
                     img.style.transform = `rotate(${angle}deg) scale(${scale})`;
                 });
 
-                if (scale >= 2) { // Ajuste para que o tamanho não fique tão grande
+                if (scale >= 7) { // Aumentei o limite de escala para ocupar mais a tela
                     clearInterval(interval);
                 }
-            }, 100);
+            }, 50); // Intervalo mais curto para rotação mais rápida
         });
     </script>
 
