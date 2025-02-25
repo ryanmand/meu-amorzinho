@@ -50,42 +50,41 @@
             background: red;
             color: white;
             position: absolute;
-            transition: all 0.3s ease; /* Para suavizar o movimento */
+            transition: all 0.3s ease;
         }
 
         .imagens {
             display: flex;
-            justify-content: space-between; /* Distribui as imagens igualmente */
-            width: 100%; /* Garante que as imagens ocupem toda a largura da tela */
+            justify-content: space-between;
+            width: 100%;
             position: relative;
             margin-top: 20px;
         }
 
         .imagem {
-            display: none; /* Inicialmente as imagens estarão escondidas */
-            width: 33%; /* Cada imagem ocupará 1/3 da tela */
-            transform-origin: center center; /* Garantir que as imagens cresçam a partir do centro */
-            transition: transform 3s ease-in-out, left 1s ease-out, top 1s ease-out; /* Transição para rotação e animação de movimento */
+            display: none;
+            width: 33%;
+            transform-origin: center center;
+            transition: transform 4s ease-in-out, left 1s ease-out, top 1s ease-out;
             position: absolute;
         }
 
-        /* Inicialmente posicionando as imagens fora da tela */
         #imagem1 {
-            left: -100%; /* Fora da tela, à esquerda */
-            top: 50%; /* Posição vertical no meio */
-            transform: translateY(-50%); /* Ajusta para ficar centralizada verticalmente */
+            left: -100%;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         #imagem2 {
-            right: -100%; /* Fora da tela, à direita */
-            top: 50%; /* Posição vertical no meio */
-            transform: translateY(-50%); /* Ajusta para ficar centralizada verticalmente */
+            right: -100%;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         #imagem3 {
-            left: 50%; /* Posição horizontal no meio */
-            bottom: -100%; /* Fora da tela, embaixo */
-            transform: translateX(-50%); /* Ajusta para ficar centralizada horizontalmente */
+            left: 50%;
+            bottom: -100%;
+            transform: translateX(-50%);
         }
 
     </style>
@@ -115,7 +114,6 @@
             let x = Math.random() * (window.innerWidth - 100);
             let y = Math.random() * (window.innerHeight - 100);
 
-            // Garantir que o botão "Não" não ultrapasse os limites da tela
             if (x + nao.offsetWidth > window.innerWidth) x = window.innerWidth - nao.offsetWidth - 10;
             if (y + nao.offsetHeight > window.innerHeight) y = window.innerHeight - nao.offsetHeight - 10;
 
@@ -125,49 +123,59 @@
 
         // Quando clicar no botão "Não", ele desaparece e reaparece em um novo local
         nao.addEventListener("click", () => {
-            nao.style.display = "none"; // Esconde o botão
+            nao.style.display = "none";
             setTimeout(() => {
-                nao.style.display = "block"; // Mostra o botão novamente
-                moverBotaoNao(); // Mover o botão para uma nova posição
-            }, 300); // Atraso para esconder e mostrar novamente
+                nao.style.display = "block";
+                moverBotaoNao();
+            }, 300);
         });
 
         sim.addEventListener("click", () => {
             imagens.forEach((img, index) => {
-                img.style.display = "inline-block"; // Agora todas as imagens aparecem
-                img.style.transform = "scale(1)"; // Resetando qualquer transformação anterior
+                img.style.display = "inline-block";
 
-                // Movendo as imagens para dentro da tela a partir de diferentes cantos
+                // Mover as imagens para suas posições iniciais fora da tela
                 if (index === 0) {
-                    img.style.left = "33%"; // A imagem 1 vai para a posição de 1/3 da tela
-                    img.style.top = "50%"; // No meio verticalmente
-                    img.style.transform = "translate(-50%, -50%)"; // Centraliza a imagem
+                    img.style.left = "-100%"; // A imagem 1 vem da esquerda
+                    img.style.top = "50%"; // Alinha ao meio verticalmente
+                    img.style.transform = "translateY(-50%)"; // Centraliza a imagem verticalmente
                 } else if (index === 1) {
-                    img.style.left = "33%"; // A imagem 2 vai para a posição de 1/3 da tela
-                    img.style.top = "50%"; // No meio verticalmente
-                    img.style.transform = "translate(-50%, -50%)"; // Centraliza a imagem
+                    img.style.right = "-100%"; // A imagem 2 vem da direita
+                    img.style.top = "50%"; // Alinha ao meio verticalmente
+                    img.style.transform = "translateY(-50%)"; // Centraliza a imagem verticalmente
                 } else if (index === 2) {
-                    img.style.left = "33%"; // A imagem 3 vai para a posição de 1/3 da tela
-                    img.style.bottom = "50%"; // No meio verticalmente
-                    img.style.transform = "translate(-50%, 50%)"; // Centraliza a imagem
+                    img.style.left = "50%"; // A imagem 3 vem de baixo
+                    img.style.bottom = "-100%"; // Fora da tela em baixo
+                    img.style.transform = "translateX(-50%)"; // Centraliza a imagem horizontalmente
                 }
             });
 
             let angle = 0;
             let scale = 1;
             let interval = setInterval(() => {
-                angle += 15; // Aumento a rotação para girar de forma mais rápida
-                scale += 0.05; // Aumento suave para o crescimento das imagens
-                
+                angle += 20; // Faz as imagens girarem mais rápido
+                scale += 0.05; // Faz as imagens crescerem
+
                 imagens.forEach((img) => {
                     img.style.transform = `rotate(${angle}deg) scale(${scale})`;
                 });
 
                 // Gire as imagens até 720º (2 rotações completas) e aumente o tamanho até cobrir a tela
-                if (scale >= 1.5) { // Limite de escala para cobrir um 1/3 da tela
+                if (scale >= 2) { // A imagem vai crescer até o dobro do tamanho
                     clearInterval(interval);
                 }
             }, 30); // Intervalo rápido para rotação mais rápida
+
+            // Agora faz as imagens entrarem
+            setTimeout(() => {
+                imagens[0].style.left = "33%"; // Imagem 1 vai para 1/3 da tela
+                imagens[0].style.transform = "translateX(-50%) translateY(-50%)"; // Centraliza
+                imagens[1].style.left = "33%"; // Imagem 2 vai para 1/3 da tela
+                imagens[1].style.transform = "translateX(-50%) translateY(-50%)"; // Centraliza
+                imagens[2].style.left = "33%"; // Imagem 3 vai para 1/3 da tela
+                imagens[2].style.transform = "translateX(-50%) translateY(50%)"; // Centraliza
+            }, 1000); // Delay de 1 segundo para as imagens entrarem
+
         });
     </script>
 
