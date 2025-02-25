@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -59,41 +59,36 @@
             width: 100%;
             position: relative;
             margin-top: 20px;
-            height: 200px;
         }
 
         .imagem {
             display: none;
             width: 33%;
-            position: absolute;
-            opacity: 0;
-            transform: translateY(-50%);
-            transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-origin: center center;
         }
 
-        #imagem1 { left: -100%; }
-        #imagem2 { left: 50%; transform: translate(-50%, -50%) scale(0); }
-        #imagem3 { left: 200%; }
+        /* Posições iniciais fora da tela e escala pequena */
+        #imagem1 { transform: translateX(-150%) scale(0.1); }
+        #imagem2 { transform: translateY(-150%) scale(0.1); }
+        #imagem3 { transform: translateX(150%) scale(0.1); }
 
-        .imagem.entrar {
-            opacity: 1;
-            transform: translateY(-50%);
-        }
-        #imagem1.entrar { left: 10%; }
-        #imagem2.entrar { 
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1); 
-        }
-        #imagem3.entrar { left: 90%; }
-
-        @keyframes girar {
-            0% { transform: rotate(0deg) translateY(-50%); }
-            100% { transform: rotate(720deg) translateY(-50%); }
+        /* Animação de entrada com rotação e aumento, terminando sem rotação */
+        @keyframes entrarGirando {
+            0% { transform: translateX(-150%) scale(0.1); }
+            80% { transform: translateX(0) scale(1.5) rotate(720deg); } /* Pico da animação */
+            100% { transform: translateX(0) scale(1.5) rotate(0deg); } /* Estado final */
         }
 
-        .imagem.girando {
-            animation: girar 3s linear infinite;
-            transition: none;
+        @keyframes entrarGirandoCima {
+            0% { transform: translateY(-150%) scale(0.1); }
+            80% { transform: translateY(0) scale(1.5) rotate(720deg); }
+            100% { transform: translateY(0) scale(1.5) rotate(0deg); }
+        }
+
+        @keyframes entrarGirandoDireita {
+            0% { transform: translateX(150%) scale(0.1); }
+            80% { transform: translateX(0) scale(1.5) rotate(720deg); }
+            100% { transform: translateX(0) scale(1.5) rotate(0deg); }
         }
 
     </style>
@@ -139,12 +134,16 @@
 
         sim.addEventListener("click", () => {
             imagens.forEach((img) => {
-                img.style.display = "block";
-                img.classList.add("entrar");
-                
-                setTimeout(() => {
-                    img.classList.add("girando");
-                }, 1000);
+                img.style.display = "inline-block"; // Exibe as imagens
+
+                // Aplica a animação correta dependendo da imagem
+                if (img.id === "imagem1") {
+                    img.style.animation = "entrarGirando 2.5s ease-in-out forwards";
+                } else if (img.id === "imagem2") {
+                    img.style.animation = "entrarGirandoCima 2.5s ease-in-out forwards";
+                } else if (img.id === "imagem3") {
+                    img.style.animation = "entrarGirandoDireita 2.5s ease-in-out forwards";
+                }
             });
         });
     </script>
