@@ -57,37 +57,29 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            position: relative;
-            margin-top: 20px;
+            position: absolute; /* Posiciona as imagens fora da tela */
+            bottom: -150px; /* Ajuste este valor para controlar a posição inicial */
+            transition: transform 1s ease-in-out; /* Adiciona transição suave */
         }
 
         .imagem {
-            display: none;
+            display: block;
             width: 33%;
             transform-origin: center center;
-            transition: transform 1s ease-in-out; /* Transição mais suave para o movimento */
+            transition: transform 3s ease-in-out;
         }
 
         /* Animação de rotação contínua */
         @keyframes girar {
             0% { transform: rotate(0deg) scale(1); }
-            100% { transform: rotate(720deg) scale(1.5); } /* 720 graus para duas voltas */
+            100% { transform: rotate(720deg) scale(1.5); } /* Rotação de 720 graus */
         }
 
-        /* Posições iniciais fora da tela */
-        #imagem1 { transform: translateX(-150%); }
-        #imagem2 { transform: translateY(-150%); }
-        #imagem3 { transform: translateX(150%); }
-
-        /* Classe para exibir e animar */
-        .imagem.visivel {
-            display: inline-block;
-            transform: translateX(0) translateY(0); /* Volta ao centro */
-        }
-
+        /* Aplica a animação de rotação contínua nas imagens */
         .imagem.girando {
-            animation: girar 3s linear infinite; /* Rotação de 3s, contínua */
+            animation: girar 5s linear infinite; /* 5s para uma rotação suave, ajuste conforme necessário */
         }
+
     </style>
 </head>
 <body>
@@ -109,6 +101,7 @@
         const nao = document.getElementById("nao");
         const sim = document.getElementById("sim");
         const imagens = document.querySelectorAll(".imagem");
+        const imagensContainer = document.querySelector(".imagens");
 
         function moverBotaoNao() {
             let x = Math.random() * (window.innerWidth - 100);
@@ -130,11 +123,9 @@
         });
 
         sim.addEventListener("click", () => {
+            imagensContainer.style.transform = "translateY(-150px)"; // Move as imagens para cima
             imagens.forEach((img) => {
-                img.classList.add("visivel"); // Faz as imagens "entrarem" dos lados
-                setTimeout(() => {
-                    img.classList.add("girando"); // Adiciona a rotação após a entrada
-                }, 1000); // Atraso de 1s para a rotação começar após a entrada
+                img.classList.add("girando"); // Adiciona a classe para começar a rotação infinita
             });
         });
     </script>
